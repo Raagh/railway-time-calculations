@@ -47,9 +47,14 @@ namespace RailwayService.Infrastructure.DataAccess
             return await Task.FromResult(result);
         }
 
-        public async Task<List<Journey>> GetAll()
+        public async Task<bool> AreValidLocations(string departFrom, string arriveAt) => await Task.FromResult(collection.Any(x => x.ArriveAt == departFrom || x.DepartFrom == arriveAt));
+
+        public async Task<RailwayConnectionsGraph> GetAllAsRailwayConnectionsGraph()
         {
-            return await Task.FromResult(collection);
+            var vertices = collection.Select(x => x.DepartFrom).Distinct();
+            var edges = collection.Select(x => Tuple.Create(x.ArriveAt, x.DepartFrom, x.Time));
+
+            return await Task.FromResult(new RailwayConnectionsGraph(vertices, edges));
         }
 
         private List<Journey> LoadFromJson(string path)

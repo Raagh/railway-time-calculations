@@ -17,6 +17,8 @@ namespace RailwayService.Core.Application
 
         public async Task<Journey> GetJourney(string departFrom, string arriveAt)
         {
+            if (!await journeysRespository.AreValidLocations(departFrom, arriveAt)) return null;
+
             var result = await journeysRespository.GetJourney(departFrom, arriveAt);
 
             if (result != null) return result;
@@ -26,25 +28,19 @@ namespace RailwayService.Core.Application
 
         private async Task<Journey> GetJourneyWithIntermediateConnections(string departFrom, string arriveAt)
         {
-            var connections = await journeysRespository.GetAll();
+            var railwayConnectionsGraph = await journeysRespository.GetAllAsRailwayConnectionsGraph();
 
-            var vertices = connections.Select(x => x.DepartFrom).Distinct();
-            var edges = connections.Select(x => Tuple.Create(x.ArriveAt, x.DepartFrom, x.Time));
-
-            var graph = new Graph<string, int>(vertices, edges);
-
-            var CalculateShortestPath = ShortestPathFunction(graph, (departFrom, 0));
-
+            var CalculateShortestPath = ShortestPathFunction(railwayConnectionsGraph, (departFrom, 0));
             var shortestPath = CalculateShortestPath((arriveAt, 0));
 
             return new Journey() { DepartFrom = departFrom, ArriveAt = arriveAt, Time = shortestPath.Sum(x => x.Item2) };
         }
 
-        public Func<(T, int), IEnumerable<(T, int)>> ShortestPathFunction<T>(Graph<T, int> graph, (T,int) start)
+        public Func<(string, int), IEnumerable<(string, int)>> ShortestPathFunction(RailwayConnectionsGraph graph, (string,int) start)
         {
-            var previous = new Dictionary<T, (T, int)>();
+            var previous = new Dictionary<string, (string, int)>();
 
-            var queue = new Queue<(T, int)>();
+            var queue = new Queue<(string, int)>();
             queue.Enqueue(start);
 
             while (queue.Count > 0)
@@ -60,8 +56,8 @@ namespace RailwayService.Core.Application
                 }
             }
 
-            Func<(T, int), IEnumerable<(T, int)>> shortestPath = v => {
-                var path = new List<(T, int)> { };
+            Func<(string, int), IEnumerable<(string, int)>> shortestPath = v => {
+                var path = new List<(string, int)> { };
 
                 var current = v;
                 while (!current.Item1.Equals(start.Item1))

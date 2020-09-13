@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace RailwayService.Core.Application
+namespace RailwayService.Core.Domain
 {
-    public class Graph<T,E>
+    public class RailwayConnectionsGraph
     {
-        public Graph() { }
-        public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T, E>> edges)
+        public RailwayConnectionsGraph() { }
+        public RailwayConnectionsGraph(IEnumerable<string> vertices, IEnumerable<Tuple<string, string, int>> edges)
         {
             foreach (var vertex in vertices)
                 AddVertex(vertex);
@@ -16,14 +15,14 @@ namespace RailwayService.Core.Application
                 AddEdge(edge);
         }
 
-        public Dictionary<T, HashSet<(T, E)>> AdjacencyList { get; } = new Dictionary<T, HashSet<(T, E)>>();
+        public Dictionary<string, HashSet<(string, int)>> AdjacencyList { get; } = new Dictionary<string, HashSet<(string, int)>>();
 
-        public void AddVertex(T vertex)
+        public void AddVertex(string vertex)
         {
-            AdjacencyList[vertex] = new HashSet<(T, E)>();
+            AdjacencyList[vertex] = new HashSet<(string, int)>();
         }
 
-        public void AddEdge(Tuple<T, T, E> edge)
+        public void AddEdge(Tuple<string, string, int> edge)
         {
             if (AdjacencyList.ContainsKey(edge.Item1) && AdjacencyList.ContainsKey(edge.Item2))
             {
