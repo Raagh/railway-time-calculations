@@ -1,0 +1,32 @@
+.container {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  width:100%;
+  flex-direction: column;
+}
+
+.container__form{
+  display:flex;
+  flex-direction: column;
+}
+
+.select-container__select {
+  width: 50%;
+}
+
+.select-container__label {
+  width: 50%;
+  text-align: center;
+}
+
+.select-container {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.button {
+  margin: 0.5rem;
+}

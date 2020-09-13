@@ -1,0 +1,25 @@
+<section class="container">
+  <span>
+    How Long Does it Take To Get From/To?
+  </span>
+  <form class="container__form" [formGroup]="journeyForm" (ngSubmit)="onSubmit()" >
+    <div class="select-container">
+      <label class="select-container__label">Depart From</label>
+      <select formControlName="departFrom" class="select-container__select">
+        <option  *ngFor="let item of stations" [ngValue]="item">{{item}}</option>
+      </select>
+    </div>
+
+    <div class="select-container">
+      <label class="select-container__label">Arrive At</label>
+      <select formControlName="arriveAt" class="select-container__select">
+        <option *ngFor="let item of stations" [ngValue]="item">{{item}}</option>
+      </select>
+    </div>
+    <button class="button" type="submit">
+      Find Out
+    </button>
+    <label style="text-align: center">{{journey$ | async}}</label>
+  </form>
+</section>
+<router-outlet></router-outlet>

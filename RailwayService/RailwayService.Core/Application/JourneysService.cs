@@ -1,5 +1,4 @@
 ﻿using RailwayService.Core.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,18 +29,19 @@ namespace RailwayService.Core.Application
         {
             var railwayConnectionsGraph = await journeysRespository.GetAllAsRailwayConnectionsGraph();
 
-            var CalculateShortestPath = ShortestPathFunction(railwayConnectionsGraph, (departFrom, 0));
-            var shortestPath = CalculateShortestPath((arriveAt, 0));
+            var shortestPath = CalculatePath(railwayConnectionsGraph, departFrom, arriveAt);
+
+            if (shortestPath == null) return null;
 
             return new Journey() { DepartFrom = departFrom, ArriveAt = arriveAt, Time = shortestPath.Sum(x => x.Item2) };
         }
 
-        public Func<(string, int), IEnumerable<(string, int)>> ShortestPathFunction(RailwayConnectionsGraph graph, (string,int) start)
+        private IEnumerable<(string, int)> CalculatePath(RailwayConnectionsGraph graph, string start, string end)
         {
             var previous = new Dictionary<string, (string, int)>();
 
             var queue = new Queue<(string, int)>();
-            queue.Enqueue(start);
+            queue.Enqueue((start, 0));
 
             while (queue.Count > 0)
             {
@@ -55,24 +55,20 @@ namespace RailwayService.Core.Application
                     queue.Enqueue(neighbor);
                 }
             }
+       
+            var path = new List<(string, int)> { };
 
-            Func<(string, int), IEnumerable<(string, int)>> shortestPath = v => {
-                var path = new List<(string, int)> { };
-
-                var current = v;
-                while (!current.Item1.Equals(start.Item1))
-                {
-                    path.Add(current);
-                    current = previous[current.Item1];
-                };
-
-                path.Add((start.Item1, current.Item2));
-                path.Reverse();
-
-                return path;
+            var current = (end, 0);
+            while (!current.Item1.Equals(start))
+            {
+                path.Add(current);
+                current = previous[current.Item1];
             };
 
-            return shortestPath;
+            path.Add((start, current.Item2));
+            path.Reverse();
+
+            return path;
         }
     }
 }

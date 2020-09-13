@@ -14,8 +14,8 @@ namespace RailwayService.Infrastructure.DataAccess
     {
         /* 
          * This repository loads destinations from a json file
-         * In the future this could be replaced by a database, I used the interface to represent a common contract between repositories
-         * When the implementation changes to a database, the only thing that needs to be done is to add a new repository that
+         * In the future this could be replaced by a database, I used the interface to represent a common contract between implementations
+         * When the implementation changes to use a database, the only thing that needs to be done is to add a new repository that
          * uses the same interface but reads from a database instead (the signatures have been made async for that purpose).
         */
         private readonly ILogger<JourneysFileRespository> logger;
@@ -36,6 +36,8 @@ namespace RailwayService.Infrastructure.DataAccess
             }
         }
 
+        public async Task<bool> AreValidLocations(string departFrom, string arriveAt) => await Task.FromResult(collection.Any(x => x.ArriveAt == departFrom || x.DepartFrom == arriveAt));
+
         public async Task<Journey> GetJourney(string departFrom, string arriveAt)
         {
             var result = collection
@@ -46,8 +48,6 @@ namespace RailwayService.Infrastructure.DataAccess
 
             return await Task.FromResult(result);
         }
-
-        public async Task<bool> AreValidLocations(string departFrom, string arriveAt) => await Task.FromResult(collection.Any(x => x.ArriveAt == departFrom || x.DepartFrom == arriveAt));
 
         public async Task<RailwayConnectionsGraph> GetAllAsRailwayConnectionsGraph()
         {

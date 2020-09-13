@@ -29,6 +29,7 @@ namespace RailwayService.Api
             services.AddControllers();
             services.AddScoped<IJourneysService, JourneysService>();
             services.AddSingleton<IJourneysRespository, JourneysFileRespository>();
+            services.AddCors();
 
             services.AddSwaggerGen(options =>
             {
@@ -55,6 +56,11 @@ namespace RailwayService.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
