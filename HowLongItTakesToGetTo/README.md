@@ -1,27 +1,24 @@
 # HowLongItTakesToGetTo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
+The `HowLongDoesItTakesToGetTo` project is an SPA built with Angular that connects to the API for using the specified functionality.
 
-## Development server
+## Dependencies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This project needs the `RailwayService` API running in the background. The app expects that the API is running under `https://localhost:44325/`.
+If you run the API on docker or another port was used please change the config in `src\assets\api.config.ts`
 
-## Code scaffolding
+## Running
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+npm install
+npm run start
+```
 
-## Build
+## Possible Improvements
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Due to time constraints there are some "Missing" features that I would normally implement in a "Real World" Project. Some of them are the following:
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Separate home page from app component and use Angular Routing properly.
+- Separate select and button into specific components under a shared module with proper unit tests.
+- Setup different running commands for running API locally or on Docker (currently the app is statically configured to search for the API in port 44325)
+- Add unit tests for journeys.service.ts and the home page component.

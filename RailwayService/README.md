@@ -32,7 +32,6 @@ API endpoints are versioned as `v1`
 - Although the method that finds the path from one station to another also works when there is a direct connection, I decided to implement the direct connection and the multiple connections separately,
   there might a performance concern of creating a graph when there is a direct connection available.
 
-
 ## Possible Improvements
 
 Due to time constraints there are some "Missing" features that I would normally implement in a "Real World" Project. Some of them are the following:
