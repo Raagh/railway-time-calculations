@@ -35,6 +35,7 @@ namespace RailwayService.Tests
                 Tuple.Create("London Victoria", "London Paddington", 32),
                 Tuple.Create("London Paddington", "London Victoria", 32)
             };
+
             this.mockedGraph = new RailwayConnectionsGraph(vertices, edges);
         }
 
@@ -49,13 +50,15 @@ namespace RailwayService.Tests
         [Fact]
         public async Task IfEverythingIsOk_GetJourney_ShouldReturnTheExpectedJourney()
         {
-            var journey = new Journey { DepartFrom = "Basingstoke", ArriveAt = "Reading", Time = 18 };
-            journeysRepository.Setup(x => x.GetJourney(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(journey);
+            var expectedJourney = new Journey { DepartFrom = "Basingstoke", ArriveAt = "Reading", Time = 18 };
+            journeysRepository.Setup(x => x.GetJourney(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(expectedJourney);
             journeysRepository.Setup(x => x.AreValidLocations(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
 
             var result = await service.GetJourney("Basingstoke", "Reading");
 
-            Assert.Equal(journey, result);
+            Assert.Equal(expectedJourney.DepartFrom, result.DepartFrom);
+            Assert.Equal(expectedJourney.ArriveAt, result.ArriveAt);
+            Assert.Equal(expectedJourney.Time, result.Time);
         }
 
         [Theory]
@@ -63,7 +66,7 @@ namespace RailwayService.Tests
         [InlineData("Reading", "London Victoria", 66)]
         [InlineData("Farnborough", "London Victoria", 59)]
         [InlineData("London Paddington", "London Victoria", 32)]
-        [InlineData("Clampham Junction", "London Victoria", 6)]
+        [InlineData("Clapham Junction", "London Victoria", 6)]
         public async Task IfEverythingIsOk_GetJourney_ShouldReturnTheExpectedJourneyWithIntermediateConnections(string departFrom, string arriveAt, int time)
         {
             var expectedJourney = new Journey { DepartFrom = departFrom, ArriveAt = arriveAt, Time = time };
