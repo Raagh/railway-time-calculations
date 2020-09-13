@@ -1,0 +1,73 @@
+[
+	{
+		"DepartFrom": "Basingstoke",
+		"ArriveAt": "Reading",
+		"Time":18
+	},
+	{
+		"DepartFrom": "Reading",
+		"ArriveAt": "Basingstoke",
+		"Time":18
+	},
+	{
+		"DepartFrom": "Basingstoke",
+		"ArriveAt": "Farnborough",
+		"Time":16
+	},
+	{
+		"DepartFrom": "Farnborough",
+		"ArriveAt": "Basingstoke",
+		"Time":16
+	},
+	{
+		"DepartFrom": "Reading",
+		"ArriveAt": "Farnborough",
+		"Time":25
+	},
+	{
+		"DepartFrom": "Farnborough",
+		"ArriveAt": "Reading",
+		"Time":25
+	},
+	{
+		"DepartFrom": "Basingstoke",
+		"ArriveAt": "Clapham Junction",
+		"Time":37
+	},
+	{
+		"DepartFrom": "Clapham Junction",
+		"ArriveAt": "Basingstoke",
+		"Time":37
+	},
+	{
+		"DepartFrom": "Clapham Junction",
+		"ArriveAt": "London Victoria",
+		"Time":6
+	},
+	{
+		"DepartFrom": "London Victoria",
+		"ArriveAt": "Clapham Junction",
+		"Time":6
+	},
+	{
+		"DepartFrom": "Reading",
+		"ArriveAt": "London Paddington",
+		"Time":34
+	},
+	{
+		"DepartFrom": "London Paddington",
+		"ArriveAt": "Reading",
+		"Time":34
+	},
+	{
+		"DepartFrom": "London Paddington",
+		"ArriveAt": "London Victoria",
+		"Time":32
+	},
+	{
+		"DepartFrom": "London Victoria",
+		"ArriveAt": "London Paddington",
+		"Time":32
+	}
+]
+
